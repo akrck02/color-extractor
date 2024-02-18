@@ -1,0 +1,37 @@
+{
+  "name": "color-extractor",
+  "version": "1.0.0",
+  "description": "A color extractor for images",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "compile": "tsc --project .",
+    "compile-watch": "tsc --project . -w",
+    "pack-styles": "java -jar bin/lit-v1.0b2.jar",
+    "pack-client": "rollup temp/src/Start.js --file out/App.js --format iife",
+    "dist" : "npm run compile && npm run pack-styles && npm run pack-client",
+    "serve" : "python -m http.server 5500"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/akrck02/color-extractor.git"
+  },
+  "keywords": [
+    "Typescript",
+    "single-page-app"
+  ],
+  "author": "akrck02",
+  "license": "GPL-3.0-or-later",
+  "bugs": {
+    "url": "https://github.com/akrck02/color-extractor/issues"
+  },
+  "homepage": "https://github.com/akrck02/color-extractor#readme",
+  "devDependencies": {
+    "rollup": "^2.70.1",
+    "typescript": "^4.5.2",
+    "dotenv": "^16.0.1"
+  },
+  "dependencies": {}
+}

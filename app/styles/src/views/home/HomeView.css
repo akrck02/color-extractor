@@ -1,0 +1,127 @@
+view#home {
+    padding: 1rem;
+    background: var(--background-color);
+    transition: background-color var(--animation-fast);
+
+    margin-bottom: 5rem;
+    height: fit-content;
+    padding-bottom: 6rem;
+}
+
+* {
+    transition: background-color var(--animation-fast);
+}
+
+.surface,
+.primary-container,
+.secondary-container,
+.tertiary-container,
+.error-container {
+    padding: 1rem;
+}
+
+.surface {
+    margin-bottom: 1rem;
+}
+
+textarea {
+    width: 100%;
+}
+
+.primary-container{
+    margin-bottom: 2rem;
+    margin-top: 1rem;
+}
+
+.secondary-container {
+    margin-top: 2rem;
+}
+
+img.user-profile-pic {
+    --size:2rem;
+    width: var(--size);
+    height: var(--size);
+    border-radius: 5rem;
+    margin-right: 1rem;
+}
+
+div.card {
+    padding: 1.2rem 1.2rem;
+    margin-bottom: 0rem;
+    width: min(30rem, 100%);
+}
+
+div.card div.msg-info p.username {
+    font-size: .75rem;
+    margin-bottom: .35rem;
+}
+
+div.card div.msg-info p.date {
+    font-size: .65rem;
+    opacity: .5;
+}
+
+
+div.card svg {
+    fill: var(--on-background) !important;
+}
+
+div.card p.message-to{
+    font-size: .65rem;
+    opacity: .5;
+    margin: 1rem 0;
+}
+
+div.card div.content {
+    line-height: 1.5rem;
+    font-size: .85rem;
+    margin-bottom: 1rem;
+}
+
+div.card div.button-bar button {
+    padding: .5rem 3rem;
+    font-size: .85rem;
+}
+
+:root[data-bubble="material"] div.nav-bar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    background: var(--secondary-container-color);
+    width:100%;
+    border-radius: 1.2rem 1.2rem 0rem 0rem;
+    padding: 1rem 1rem;
+    height: 5rem;
+    margin-bottom: 0;
+    box-shadow: 0rem -.2rem .3rem rgba(0,0,0, .1);
+}
+
+div.nav-bar div.button-group button {
+    padding: .5rem 1.5rem;
+    height: auto;
+    background: var(--tertiary-container-color);
+}
+
+div.nav-bar div.button-group button span {
+    font-size: 1.1rem;
+}
+
+div.nav-bar div.button-group label {
+    font-size: .65rem;
+    text-align: center;
+}
+
+div.nav-bar div.separator {
+    width: 3.2rem;
+}
+
+:root[data-bubble=material] button.new-mail {
+    position: fixed;
+    bottom: 2.75rem;
+    right: calc(50% - 2.5rem);
+
+    width: 4rem;
+    height: 4rem;
+    box-shadow: 0rem -.2rem .3rem rgba(0,0,0, .1);
+    z-index:2;
+}
