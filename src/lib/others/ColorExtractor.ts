@@ -42,21 +42,21 @@ export class ColorExtractor {
         console.table(rgbBaseColor);
 
         const extractedColors = ColorExtractor.extractAll(rgbBaseColor);
-        console.log(extractedColors);
+        extractedColors.forEach(color => console.log(color));
         
         const textDark  = {r:0,g:0,b:0};
         const textLight = {r:255,g:255,b:255};
 
-        const background    = extractedColors[4];
+        const background    = extractedColors[1];
         const onBackground  = ColorExtractor.isLight(background) ? textDark : textLight;
         
-        const surface1      = extractedColors[5];
+        const surface1      = extractedColors[2];
         const onSurface1    = ColorExtractor.isLight(surface1) ? textDark : textLight;
 
-        const surface2      = extractedColors[6];
+        const surface2      = extractedColors[3];
         const onSurface2    = ColorExtractor.isLight(surface2) ? textDark : textLight;
 
-        const surface3      = extractedColors[5];
+        const surface3      = extractedColors[2];
         const onSurface3    = ColorExtractor.isLight(surface3) ? textDark : textLight;
 
         return {
@@ -82,67 +82,43 @@ export class ColorExtractor {
      */
     private static extractAll(
         color : Color
-    ){
+    ) : Color[] {
         const difference = 17;
 
         const darkerColors = []
         const lighterColors = [];
         var rgbDown = color;
 
-        const value = this.getBaseChannel(color);
-
-        switch(value){
-            case 'r':
-                while (rgbDown.r > 0) {
-                    rgbDown = ColorExtractor.getNewColor(rgbDown, -difference);
-                    darkerColors.push(rgbDown);
-                }
-
-                darkerColors.reverse();
-                lighterColors.push(color);
-                var rgbUp = color;
-
-                while (rgbUp.r < 255) {
-                    rgbUp = ColorExtractor.getNewColor(rgbUp, difference);
-                    lighterColors.push(rgbUp);
-                }
-
-                return darkerColors.concat(lighterColors);
-            case 'g':
-                while (rgbDown.g > 0) {
-                    rgbDown = ColorExtractor.getNewColor(rgbDown, -difference);
-                    darkerColors.push(rgbDown);
-                }
-
-                darkerColors.reverse();
-                lighterColors.push(color);
-                var rgbUp = color;
-
-                while (rgbDown.g < 255) {
-                    rgbUp = ColorExtractor.getNewColor(rgbUp, difference);
-                    lighterColors.push(rgbUp);
-                }
-
-                return darkerColors.concat(lighterColors);
-            case 'b':
-                while (rgbDown.b > 0) {
-                    rgbDown = ColorExtractor.getNewColor(rgbDown, -difference);
-                    darkerColors.push(rgbDown);
-                }
-
-                darkerColors.reverse();
-                lighterColors.push(color);
-                var rgbUp = color;
-
-                while (rgbUp.b < 255) {
-                    rgbUp = ColorExtractor.getNewColor(rgbUp, difference);
-                    lighterColors.push(rgbUp);
-                }
-
-                return darkerColors.concat(lighterColors);
+        while (rgbDown.r > 0) {
+            rgbDown = ColorExtractor.getNewColor(rgbDown, -difference);
+            if(ColorExtractor.isValidColor(rgbDown)){
+                darkerColors.push(rgbDown);
+            }
         }
-        
-        return [];
+
+        darkerColors.reverse();
+        lighterColors.push(color);
+        var rgbUp = color;
+
+        while (rgbUp.r < 255) {
+            rgbUp = ColorExtractor.getNewColor(rgbUp, difference);
+            if(ColorExtractor.isValidColor(rgbUp)){
+                lighterColors.push(rgbUp);
+            }
+        }
+
+        return darkerColors.concat(lighterColors);
+    
+    }
+
+    /**
+     * Get if the color is valid
+     * @param rgbUp The color to check
+     */
+    static isValidColor(rgbUp: Color) {
+        return rgbUp.r >= 0 && rgbUp.r <= 255
+            && rgbUp.g >= 0 && rgbUp.g <= 255
+            && rgbUp.b >= 0 && rgbUp.b <= 255;
     }
 
     /**
@@ -198,9 +174,9 @@ export class ColorExtractor {
      */
     private static getNewColor(color : Color, difference : number) : Color {
         return {
-            r : ColorExtractor.getNumberIn0to255Range(color.r + difference),
-            g : ColorExtractor.getNumberIn0to255Range(color.g + difference),
-            b : ColorExtractor.getNumberIn0to255Range(color.b + difference),
+            r : color.r + difference,
+            g : color.g + difference,
+            b : color.b + difference,
         };
     }
 
