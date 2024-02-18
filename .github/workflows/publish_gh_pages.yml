@@ -1,7 +1,7 @@
 name: Stable release
 on:
   push:
-    branches: [ main, update/clean-ci ]
+    branches: [ main ]
 jobs:
   build:
     runs-on: ubuntu-latest
