@@ -1071,30 +1071,65 @@
         static extractAll(color) {
             const difference = 17;
             const darkerColors = [];
+            const lighterColors = [];
             var rgbDown = color;
-            while (rgbDown.r > 0) {
-                rgbDown = ColorExtractor.getNewColor(rgbDown, -difference);
-                darkerColors.push(rgbDown);
+            const value = this.getBaseChannel(color);
+            switch (value) {
+                case 'r':
+                    while (rgbDown.r > 0) {
+                        rgbDown = ColorExtractor.getNewColor(rgbDown, -difference);
+                        darkerColors.push(rgbDown);
+                    }
+                    darkerColors.reverse();
+                    lighterColors.push(color);
+                    var rgbUp = color;
+                    while (rgbUp.r < 255) {
+                        rgbUp = ColorExtractor.getNewColor(rgbUp, difference);
+                        lighterColors.push(rgbUp);
+                    }
+                    return darkerColors.concat(lighterColors);
+                case 'g':
+                    while (rgbDown.g > 0) {
+                        rgbDown = ColorExtractor.getNewColor(rgbDown, -difference);
+                        darkerColors.push(rgbDown);
+                    }
+                    darkerColors.reverse();
+                    lighterColors.push(color);
+                    var rgbUp = color;
+                    while (rgbDown.g < 255) {
+                        rgbUp = ColorExtractor.getNewColor(rgbUp, difference);
+                        lighterColors.push(rgbUp);
+                    }
+                    return darkerColors.concat(lighterColors);
+                case 'b':
+                    while (rgbDown.b > 0) {
+                        rgbDown = ColorExtractor.getNewColor(rgbDown, -difference);
+                        darkerColors.push(rgbDown);
+                    }
+                    darkerColors.reverse();
+                    lighterColors.push(color);
+                    var rgbUp = color;
+                    while (rgbUp.b < 255) {
+                        rgbUp = ColorExtractor.getNewColor(rgbUp, difference);
+                        lighterColors.push(rgbUp);
+                    }
+                    return darkerColors.concat(lighterColors);
             }
-            darkerColors.reverse();
-            const lighterColors = [color];
-            var rgbUp = color;
-            while (rgbUp.r < 255) {
-                rgbUp = ColorExtractor.getNewColor(rgbUp, difference);
-                lighterColors.push(rgbUp);
-            }
-            return darkerColors.concat(lighterColors);
+            return [];
         }
         /**
-         * Get the base channel value
-         * if the color is dark, the base channel value is the minimum value of the color
-         * if the color is light, the base channel value is the maximum value of the color0
+         * Get the base channel
          * @param color The color to get the base channel value from
          * @returns The base channel value
          */
-        static getBaseChannelValue(color) {
+        static getBaseChannel(color) {
             const min = Math.min(color.r, color.g, color.b);
-            return min;
+            switch (min) {
+                case color.r: return 'r';
+                case color.g: return 'g';
+                case color.b: return 'b';
+            }
+            return 'r';
         }
         /*
         * Convert hexadecimal  to rgb
