@@ -445,7 +445,7 @@ bottom : -5rem;
 right : 1rem;
 width : 20rem;
 height: fit-content;
-background : rgba(255,255,255,.75);
+background : var(--tertiary-container-color);
 border-radius: .35rem;
 transition: .5s;
 padding: 1.5rem;

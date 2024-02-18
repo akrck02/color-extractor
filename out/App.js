@@ -1041,16 +1041,16 @@
             const rgbBaseColor = ColorExtractor.hexToRgb(baseColor);
             console.table(rgbBaseColor);
             const extractedColors = ColorExtractor.extractAll(rgbBaseColor);
-            console.log(extractedColors);
+            extractedColors.forEach(color => console.log(color));
             const textDark = { r: 0, g: 0, b: 0 };
             const textLight = { r: 255, g: 255, b: 255 };
-            const background = extractedColors[4];
+            const background = extractedColors[1];
             const onBackground = ColorExtractor.isLight(background) ? textDark : textLight;
-            const surface1 = extractedColors[5];
+            const surface1 = extractedColors[2];
             const onSurface1 = ColorExtractor.isLight(surface1) ? textDark : textLight;
-            const surface2 = extractedColors[6];
+            const surface2 = extractedColors[3];
             const onSurface2 = ColorExtractor.isLight(surface2) ? textDark : textLight;
-            const surface3 = extractedColors[5];
+            const surface3 = extractedColors[2];
             const onSurface3 = ColorExtractor.isLight(surface3) ? textDark : textLight;
             return {
                 surface1: ColorExtractor.rgbToHex(surface1),
@@ -1073,49 +1073,31 @@
             const darkerColors = [];
             const lighterColors = [];
             var rgbDown = color;
-            const value = this.getBaseChannel(color);
-            switch (value) {
-                case 'r':
-                    while (rgbDown.r > 0) {
-                        rgbDown = ColorExtractor.getNewColor(rgbDown, -difference);
-                        darkerColors.push(rgbDown);
-                    }
-                    darkerColors.reverse();
-                    lighterColors.push(color);
-                    var rgbUp = color;
-                    while (rgbUp.r < 255) {
-                        rgbUp = ColorExtractor.getNewColor(rgbUp, difference);
-                        lighterColors.push(rgbUp);
-                    }
-                    return darkerColors.concat(lighterColors);
-                case 'g':
-                    while (rgbDown.g > 0) {
-                        rgbDown = ColorExtractor.getNewColor(rgbDown, -difference);
-                        darkerColors.push(rgbDown);
-                    }
-                    darkerColors.reverse();
-                    lighterColors.push(color);
-                    var rgbUp = color;
-                    while (rgbDown.g < 255) {
-                        rgbUp = ColorExtractor.getNewColor(rgbUp, difference);
-                        lighterColors.push(rgbUp);
-                    }
-                    return darkerColors.concat(lighterColors);
-                case 'b':
-                    while (rgbDown.b > 0) {
-                        rgbDown = ColorExtractor.getNewColor(rgbDown, -difference);
-                        darkerColors.push(rgbDown);
-                    }
-                    darkerColors.reverse();
-                    lighterColors.push(color);
-                    var rgbUp = color;
-                    while (rgbUp.b < 255) {
-                        rgbUp = ColorExtractor.getNewColor(rgbUp, difference);
-                        lighterColors.push(rgbUp);
-                    }
-                    return darkerColors.concat(lighterColors);
+            while (rgbDown.r > 0) {
+                rgbDown = ColorExtractor.getNewColor(rgbDown, -difference);
+                if (ColorExtractor.isValidColor(rgbDown)) {
+                    darkerColors.push(rgbDown);
+                }
             }
-            return [];
+            darkerColors.reverse();
+            lighterColors.push(color);
+            var rgbUp = color;
+            while (rgbUp.r < 255) {
+                rgbUp = ColorExtractor.getNewColor(rgbUp, difference);
+                if (ColorExtractor.isValidColor(rgbUp)) {
+                    lighterColors.push(rgbUp);
+                }
+            }
+            return darkerColors.concat(lighterColors);
+        }
+        /**
+         * Get if the color is valid
+         * @param rgbUp The color to check
+         */
+        static isValidColor(rgbUp) {
+            return rgbUp.r >= 0 && rgbUp.r <= 255
+                && rgbUp.g >= 0 && rgbUp.g <= 255
+                && rgbUp.b >= 0 && rgbUp.b <= 255;
         }
         /**
          * Get the base channel
@@ -1162,9 +1144,9 @@
          */
         static getNewColor(color, difference) {
             return {
-                r: ColorExtractor.getNumberIn0to255Range(color.r + difference),
-                g: ColorExtractor.getNumberIn0to255Range(color.g + difference),
-                b: ColorExtractor.getNumberIn0to255Range(color.b + difference),
+                r: color.r + difference,
+                g: color.g + difference,
+                b: color.b + difference,
             };
         }
         /**
@@ -1287,18 +1269,27 @@
          * @param value The color selected
          */
         changeTheme(value) {
-            //this.actionButton.element.style.background = value;
-            this.colorPalette = ColorExtractor.extractColors(value);
-            document.body.style.setProperty("--background-color", this.colorPalette.background);
-            document.body.style.setProperty("--on-background-color", this.colorPalette.onBackground);
-            document.body.style.setProperty("--primary-container-color", this.colorPalette.surface1);
-            document.body.style.setProperty("--on-primary-container-color", this.colorPalette.onSurface1);
-            document.body.style.setProperty("--secondary-container-color", this.colorPalette.surface2);
-            document.body.style.setProperty("--on-secondary-container-color", this.colorPalette.onSurface2);
-            document.body.style.setProperty("--tertiary-container-color", this.colorPalette.surface3);
-            document.body.style.setProperty("--on-tertiary-container-color", this.colorPalette.onSurface3);
-            document.body.style.setProperty("--item-background-color", this.colorPalette.surface2);
-            document.body.style.setProperty("--on-item-background-color", this.colorPalette.onSurface2);
+            try {
+                this.colorPalette = ColorExtractor.extractColors(value);
+                document.body.style.setProperty("--background-color", this.colorPalette.background);
+                document.body.style.setProperty("--on-background-color", this.colorPalette.onBackground);
+                document.body.style.setProperty("--primary-container-color", this.colorPalette.surface1);
+                document.body.style.setProperty("--on-primary-container-color", this.colorPalette.onSurface1);
+                document.body.style.setProperty("--secondary-container-color", this.colorPalette.surface2);
+                document.body.style.setProperty("--on-secondary-container-color", this.colorPalette.onSurface2);
+                document.body.style.setProperty("--tertiary-container-color", this.colorPalette.surface3);
+                document.body.style.setProperty("--on-tertiary-container-color", this.colorPalette.onSurface3);
+                document.body.style.setProperty("--item-background-color", this.colorPalette.surface2);
+                document.body.style.setProperty("--on-item-background-color", this.colorPalette.onSurface2);
+            }
+            catch (e) {
+                console.error(e);
+                alert({
+                    title: "Error",
+                    message: "An error occurred while changing the theme",
+                    icon: "close"
+                });
+            }
             console.table(this.colorPalette);
         }
         /**
