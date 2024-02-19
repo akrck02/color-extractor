@@ -1050,8 +1050,14 @@
             const onSurface1 = ColorExtractor.isLight(surface1) ? textDark : textLight;
             const surface2 = extractedColors[3];
             const onSurface2 = ColorExtractor.isLight(surface2) ? textDark : textLight;
-            const surface3 = extractedColors[2];
+            const surface3 = extractedColors[4];
             const onSurface3 = ColorExtractor.isLight(surface3) ? textDark : textLight;
+            const surface4 = extractedColors[5];
+            const onSurface4 = ColorExtractor.isLight(surface3) ? textDark : textLight;
+            const surface5 = extractedColors[6];
+            const onSurface5 = ColorExtractor.isLight(surface3) ? textDark : textLight;
+            const surface6 = extractedColors[7];
+            const onSurface6 = ColorExtractor.isLight(surface3) ? textDark : textLight;
             return {
                 surface1: ColorExtractor.rgbToHex(surface1),
                 onSurface1: ColorExtractor.rgbToHex(onSurface1),
@@ -1059,6 +1065,12 @@
                 onSurface2: ColorExtractor.rgbToHex(onSurface2),
                 surface3: ColorExtractor.rgbToHex(surface3),
                 onSurface3: ColorExtractor.rgbToHex(onSurface3),
+                surface4: ColorExtractor.rgbToHex(surface4),
+                onSurface4: ColorExtractor.rgbToHex(onSurface4),
+                surface5: ColorExtractor.rgbToHex(surface5),
+                onSurface5: ColorExtractor.rgbToHex(onSurface5),
+                surface6: ColorExtractor.rgbToHex(surface6),
+                onSurface6: ColorExtractor.rgbToHex(onSurface6),
                 background: ColorExtractor.rgbToHex(background),
                 onBackground: ColorExtractor.rgbToHex(onBackground),
             };
@@ -1068,29 +1080,32 @@
          * @param color The base color to extract from
          * @returns The array of extracted colors
          */
-        static extractAll(color) {
+        static extractAll(color, baseChannel = ColorExtractor.getBaseChannel(color)) {
             const difference = 17;
             const darkerColors = [];
             const lighterColors = [];
             var rgbDown = color;
-            while (rgbDown.r > 0) {
+            // Get all color shades from 0 to color
+            while (rgbDown[baseChannel] > 0) {
                 rgbDown = ColorExtractor.getNewColor(rgbDown, -difference);
-                if (ColorExtractor.isValidColor(rgbDown)) {
-                    darkerColors.push(rgbDown);
-                }
+                if (!ColorExtractor.isValidColor(rgbDown))
+                    break;
+                darkerColors.push(rgbDown);
             }
             darkerColors.reverse();
             lighterColors.push(color);
             var rgbUp = color;
-            while (rgbUp.r < 255) {
+            // Get all color shades from color to 255
+            while (rgbUp[baseChannel] < 255) {
                 rgbUp = ColorExtractor.getNewColor(rgbUp, difference);
-                if (ColorExtractor.isValidColor(rgbUp)) {
-                    lighterColors.push(rgbUp);
-                }
+                if (!ColorExtractor.isValidColor(rgbUp))
+                    break;
+                lighterColors.push(rgbUp);
             }
             return darkerColors.concat(lighterColors);
         }
         /**
+         *
          * Get if the color is valid
          * @param rgbUp The color to check
          */
@@ -1105,8 +1120,8 @@
          * @returns The base channel value
          */
         static getBaseChannel(color) {
-            const min = Math.min(color.r, color.g, color.b);
-            switch (min) {
+            const val = Math.max(color.r, color.g, color.b);
+            switch (val) {
                 case color.r: return 'r';
                 case color.g: return 'g';
                 case color.b: return 'b';
@@ -1129,6 +1144,11 @@
                 b: parseInt(blue, 16)
             };
         }
+        /**
+         * Convert RGB to hex
+         * @param rgb The rgb color to convert
+         * @returns The hex string
+         */
         static rgbToHex(rgb) {
             const red = rgb.r.toString(16).padStart(2, '0');
             const green = rgb.g.toString(16).padStart(2, '0');
