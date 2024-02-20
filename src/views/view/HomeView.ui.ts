@@ -3,6 +3,7 @@ import { HTML } from "../../lib/gtdf/components/Dom.js";
 import { UIComponent } from "../../lib/gtdf/components/UIComponent.js";
 import { Route } from "../../lib/gtdf/decorators/Route.js";
 import { Singleton } from "../../lib/gtdf/decorators/Singleton.js";
+import MaterialIcons from "../../lib/gtdf/resources/MaterialIcons.js";
 import { ViewUI } from "../../lib/gtdf/views/ViewUI.js";
 import { Gtdf as BubbleUI } from "../../lib/others/BubbleUI.js";
 import { ColorExtractor, StructuralColorPalette } from "../../lib/others/ColorExtractor.js";
@@ -16,6 +17,7 @@ export default class HomeView extends ViewUI {
     private actionButton: UIComponent;
     private colorPicker: UIComponent;
     private colorPalette: StructuralColorPalette;
+    private lightMode;
 
     public constructor(){
         super({
@@ -38,6 +40,29 @@ export default class HomeView extends ViewUI {
             }
         });
         title.appendTo(this);    
+        this.createActionButtons().appendTo(this);
+        this.createColorPicker().appendTo(this);
+
+        for (let i = 0; i < 5; i++) {
+            this.createUserPost().appendTo(this);
+        }
+     
+        this.actionButton = this.createActionButton();
+        this.actionButton.appendTo(this);
+        this.createNavBar().appendTo(this);
+        this.changeTheme("#0a0a0a",this.lightMode);
+
+        this.appendTo(container);
+    }
+
+    /**
+     * Create the real button bar
+     * @returns The buttonbar
+     */
+    private createActionButtons() : UIComponent {
+        const buttons = new UIComponent({
+            classes:[BubbleUI.BOX_ROW, BubbleUI.BOX_CENTER]
+        })
 
         const downloadButton = new UIComponent({
             type: HTML.BUTTON,
@@ -73,24 +98,43 @@ export default class HomeView extends ViewUI {
         });
 
         icon.appendTo(downloadButton);
-        downloadButton.appendTo(this);
+        downloadButton.appendTo(buttons);
 
 
+        const darkLightButton = new UIComponent({
+            type: HTML.BUTTON,
+            classes:[BubbleUI.BOX_CENTER],
+            styles: {
+                height: "3.5rem"
+            }
+        })
+       
 
-        this.createColorPicker().appendTo(this);
+        this.lightMode = true;
+        let darkLightButtonIcon = new UIComponent({
+            type: HTML.SPAN,
+            classes: ["material-symbols-outlined"],
+            text: "dark_mode",
+ 
+        });
+        darkLightButtonIcon.appendTo(darkLightButton);
+        darkLightButton.appendTo(buttons);
 
-        for (let i = 0; i < 5; i++) {
-            this.createUserPost().appendTo(this);
-        }
-     
-        this.actionButton = this.createActionButton();
-        this.actionButton.appendTo(this);
-        this.createNavBar().appendTo(this);
-        this.changeTheme("#0a0a0a");
+        darkLightButton.setEvents({
+            click : () => {
+                this.lightMode =! this.lightMode;
+                darkLightButtonIcon.element.innerText = this.lightMode ? "dark_mode":"light_mode"
+                this.changeTheme(this.colorPicker.getValue(),this.lightMode)
+            }
+        });
 
-        this.appendTo(container);
+        return buttons;
     }
 
+    /**
+     * Create the color picker section
+     * @returns 
+     */
     private createColorPicker() : UIComponent {
 
         const colorPickerContainer = new UIComponent({
@@ -111,7 +155,7 @@ export default class HomeView extends ViewUI {
         this.colorPicker.setEvents({
             input: (e: Event) => {
                 const value = this.colorPicker.getValue();
-                this.changeTheme(value);
+                this.changeTheme(value,this.lightMode);
             }
         });
 
@@ -122,10 +166,10 @@ export default class HomeView extends ViewUI {
      * Changes the theme of the app based on the color selected
      * @param value The color selected
      */
-    private changeTheme(value) {
+    private changeTheme(value, lightMode) {
         
         try {
-            this.colorPalette = ColorExtractor.extractColors(value);
+            this.colorPalette = ColorExtractor.extractColors(value, lightMode);
 
             document.body.style.setProperty("--background-color", this.colorPalette.background);
             document.body.style.setProperty("--on-background-color", this.colorPalette.onBackground);

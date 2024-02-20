@@ -57,7 +57,7 @@ export class ColorExtractor {
      * @param baseColor The base color to extract from
      * @returns The extracted colors palette
      */
-    static extractColors(baseColor : string) : StructuralColorPalette {
+    static extractColors(baseColor : string = "#000000", lightMode : boolean = true) : StructuralColorPalette {
 
         const rgbBaseColor = ColorExtractor.hexToRgb(baseColor);
         const hslColor = ColorExtractor.rgbToHsl(rgbBaseColor);
@@ -70,30 +70,33 @@ export class ColorExtractor {
             extractedColors.push(ColorExtractor.hslToRgb(hslColor))
         }
 
+        if(lightMode)
+            extractedColors.reverse();
+        
         console.log(extractedColors);
         
         const textDark  = {r:0,g:0,b:0};
         const textLight = {r:255,g:255,b:255};
 
-        const background    = extractedColors[1];
+        const background    = extractedColors[2];
         const onBackground  = ColorExtractor.isLight(background) ? textDark : textLight;
         
-        const surface1      = extractedColors[2];
+        const surface1      = extractedColors[3];
         const onSurface1    = ColorExtractor.isLight(surface1) ? textDark : textLight;
 
-        const surface2      = extractedColors[3];
+        const surface2      = extractedColors[4];
         const onSurface2    = ColorExtractor.isLight(surface2) ? textDark : textLight;
 
-        const surface3      = extractedColors[4];
+        const surface3      = extractedColors[5];
         const onSurface3    = ColorExtractor.isLight(surface3) ? textDark : textLight;
 
-        const surface4      = extractedColors[5];
+        const surface4      = extractedColors[6];
         const onSurface4    = ColorExtractor.isLight(surface3) ? textDark : textLight;
 
-        const surface5      = extractedColors[6];
+        const surface5      = extractedColors[7];
         const onSurface5    = ColorExtractor.isLight(surface3) ? textDark : textLight;
 
-        const surface6      = extractedColors[7];
+        const surface6      = extractedColors[8];
         const onSurface6    = ColorExtractor.isLight(surface3) ? textDark : textLight;
 
         return {
