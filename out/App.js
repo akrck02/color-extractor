@@ -1038,7 +1038,7 @@
          * @param baseColor The base color to extract from
          * @returns The extracted colors palette
          */
-        static extractColors(baseColor) {
+        static extractColors(baseColor = "#000000", lightMode = true) {
             const rgbBaseColor = ColorExtractor.hexToRgb(baseColor);
             const hslColor = ColorExtractor.rgbToHsl(rgbBaseColor);
             hslColor.l = 0;
@@ -1048,22 +1048,24 @@
                 hslColor.l += .05;
                 extractedColors.push(ColorExtractor.hslToRgb(hslColor));
             }
+            if (lightMode)
+                extractedColors.reverse();
             console.log(extractedColors);
             const textDark = { r: 0, g: 0, b: 0 };
             const textLight = { r: 255, g: 255, b: 255 };
-            const background = extractedColors[1];
+            const background = extractedColors[2];
             const onBackground = ColorExtractor.isLight(background) ? textDark : textLight;
-            const surface1 = extractedColors[2];
+            const surface1 = extractedColors[3];
             const onSurface1 = ColorExtractor.isLight(surface1) ? textDark : textLight;
-            const surface2 = extractedColors[3];
+            const surface2 = extractedColors[4];
             const onSurface2 = ColorExtractor.isLight(surface2) ? textDark : textLight;
-            const surface3 = extractedColors[4];
+            const surface3 = extractedColors[5];
             const onSurface3 = ColorExtractor.isLight(surface3) ? textDark : textLight;
-            const surface4 = extractedColors[5];
+            const surface4 = extractedColors[6];
             const onSurface4 = ColorExtractor.isLight(surface3) ? textDark : textLight;
-            const surface5 = extractedColors[6];
+            const surface5 = extractedColors[7];
             const onSurface5 = ColorExtractor.isLight(surface3) ? textDark : textLight;
-            const surface6 = extractedColors[7];
+            const surface6 = extractedColors[8];
             const onSurface6 = ColorExtractor.isLight(surface3) ? textDark : textLight;
             return {
                 surface1: ColorExtractor.rgbToHex(surface1),
@@ -1226,6 +1228,25 @@
                 }
             });
             title.appendTo(this);
+            this.createActionButtons().appendTo(this);
+            this.createColorPicker().appendTo(this);
+            for (let i = 0; i < 5; i++) {
+                this.createUserPost().appendTo(this);
+            }
+            this.actionButton = this.createActionButton();
+            this.actionButton.appendTo(this);
+            this.createNavBar().appendTo(this);
+            this.changeTheme("#0a0a0a", this.lightMode);
+            this.appendTo(container);
+        }
+        /**
+         * Create the real button bar
+         * @returns The buttonbar
+         */
+        createActionButtons() {
+            const buttons = new UIComponent({
+                classes: [Gtdf.BOX_ROW, Gtdf.BOX_CENTER]
+            });
             const downloadButton = new UIComponent({
                 type: HTML.BUTTON,
                 text: "Download",
@@ -1254,17 +1275,35 @@
                 }
             });
             icon.appendTo(downloadButton);
-            downloadButton.appendTo(this);
-            this.createColorPicker().appendTo(this);
-            for (let i = 0; i < 5; i++) {
-                this.createUserPost().appendTo(this);
-            }
-            this.actionButton = this.createActionButton();
-            this.actionButton.appendTo(this);
-            this.createNavBar().appendTo(this);
-            this.changeTheme("#0a0a0a");
-            this.appendTo(container);
+            downloadButton.appendTo(buttons);
+            const darkLightButton = new UIComponent({
+                type: HTML.BUTTON,
+                classes: [Gtdf.BOX_CENTER],
+                styles: {
+                    height: "3.5rem"
+                }
+            });
+            this.lightMode = true;
+            let darkLightButtonIcon = new UIComponent({
+                type: HTML.SPAN,
+                classes: ["material-symbols-outlined"],
+                text: "dark_mode",
+            });
+            darkLightButtonIcon.appendTo(darkLightButton);
+            darkLightButton.appendTo(buttons);
+            darkLightButton.setEvents({
+                click: () => {
+                    this.lightMode = !this.lightMode;
+                    darkLightButtonIcon.element.innerText = this.lightMode ? "dark_mode" : "light_mode";
+                    this.changeTheme(this.colorPicker.getValue(), this.lightMode);
+                }
+            });
+            return buttons;
         }
+        /**
+         * Create the color picker section
+         * @returns
+         */
         createColorPicker() {
             const colorPickerContainer = new UIComponent({
                 classes: [Gtdf.BOX_ROW, Gtdf.BOX_CENTER],
@@ -1283,7 +1322,7 @@
             this.colorPicker.setEvents({
                 input: (e) => {
                     const value = this.colorPicker.getValue();
-                    this.changeTheme(value);
+                    this.changeTheme(value, this.lightMode);
                 }
             });
             return colorPickerContainer;
@@ -1292,9 +1331,9 @@
          * Changes the theme of the app based on the color selected
          * @param value The color selected
          */
-        changeTheme(value) {
+        changeTheme(value, lightMode) {
             try {
-                this.colorPalette = ColorExtractor.extractColors(value);
+                this.colorPalette = ColorExtractor.extractColors(value, lightMode);
                 document.body.style.setProperty("--background-color", this.colorPalette.background);
                 document.body.style.setProperty("--on-background-color", this.colorPalette.onBackground);
                 document.body.style.setProperty("--primary-container-color", this.colorPalette.surface1);
