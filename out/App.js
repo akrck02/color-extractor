@@ -1040,11 +1040,15 @@
          */
         static extractColors(baseColor) {
             const rgbBaseColor = ColorExtractor.hexToRgb(baseColor);
-            console.table(rgbBaseColor);
-            //console.log(ColorExtractor.rgbToHsl(rgbBaseColor));
-            // Extract possible colors
-            const extractedColors = ColorExtractor.extractAll(rgbBaseColor);
-            extractedColors.forEach(color => console.log(color));
+            const hslColor = ColorExtractor.rgbToHsl(rgbBaseColor);
+            hslColor.l = 0;
+            //hslColor.s = 0;
+            const extractedColors = [ColorExtractor.hslToRgb(hslColor)];
+            while (hslColor.l < 1) {
+                hslColor.l += .05;
+                extractedColors.push(ColorExtractor.hslToRgb(hslColor));
+            }
+            console.log(extractedColors);
             const textDark = { r: 0, g: 0, b: 0 };
             const textLight = { r: 255, g: 255, b: 255 };
             const background = extractedColors[1];
@@ -1078,59 +1082,6 @@
                 onBackground: ColorExtractor.rgbToHex(onBackground),
             };
         }
-        /**
-         * Recursive function to extract all colors
-         * @param color The base color to extract from
-         * @returns The array of extracted colors
-         */
-        static extractAll(color, baseChannel = ColorExtractor.getBaseChannel(color)) {
-            const difference = 17;
-            const darkerColors = [];
-            const lighterColors = [];
-            var rgbDown = color;
-            // Get all color shades from 0 to color
-            while (rgbDown[baseChannel] > 0) {
-                rgbDown = ColorExtractor.getNewColor(rgbDown, -difference);
-                if (!ColorExtractor.isValidColor(rgbDown))
-                    break;
-                darkerColors.push(rgbDown);
-            }
-            darkerColors.reverse();
-            lighterColors.push(color);
-            var rgbUp = color;
-            // Get all color shades from color to 255
-            while (rgbUp[baseChannel] < 255) {
-                rgbUp = ColorExtractor.getNewColor(rgbUp, difference);
-                if (!ColorExtractor.isValidColor(rgbUp))
-                    break;
-                lighterColors.push(rgbUp);
-            }
-            return darkerColors.concat(lighterColors);
-        }
-        /**
-         *
-         * Get if the color is valid
-         * @param rgbUp The color to check
-         */
-        static isValidColor(rgbUp) {
-            return rgbUp.r >= 0 && rgbUp.r <= 255
-                && rgbUp.g >= 0 && rgbUp.g <= 255
-                && rgbUp.b >= 0 && rgbUp.b <= 255;
-        }
-        /**
-         * Get the base channel
-         * @param color The color to get the base channel value from
-         * @returns The base channel value
-         */
-        static getBaseChannel(color) {
-            const val = Math.max(color.r, color.g, color.b);
-            switch (val) {
-                case color.r: return 'r';
-                case color.g: return 'g';
-                case color.b: return 'b';
-            }
-            return 'r';
-        }
         /*
         * Convert hexadecimal  to rgb
         * @param hex The hex value to convert
@@ -1159,34 +1110,6 @@
             return `#${red}${green}${blue}`;
         }
         /**
-         * Get a new color based on the difference
-         * it can be a lighter or darker color
-         * @param color The base color
-         * @param difference The difference to apply
-         * @returns The new color
-         */
-        static getNewColor(color, difference) {
-            return {
-                r: color.r + difference,
-                g: color.g + difference,
-                b: color.b + difference,
-            };
-        }
-        /**
-         * Get the color ensuring that it is in the 0 to 255 range
-         * @param number The color to get in the 0 to 255 range
-         * @returns The color in the 0 to 255 range
-         */
-        static getNumberIn0to255Range(number) {
-            if (number <= 0) {
-                return 0;
-            }
-            if (number >= 255) {
-                return 255;
-            }
-            return number;
-        }
-        /**
          * Get if the color is light
          * @param color The color to check
          * @returns If the color is light
@@ -1203,21 +1126,21 @@
          * @param   {number}  h       The hue
          * @param   {number}  s       The saturation
          * @param   {number}  l       The lightness
-         * @return  {Array}           The RGB representation
+         * @return  {Color}           The RGB representation
          */
-        static hslToRgb(h, s, l) {
+        static hslToRgb(color) {
             let r, g, b;
-            if (s === 0) {
-                r = g = b = l; // achromatic
+            if (color.s === 0) {
+                r = g = b = color.l; // achromatic
             }
             else {
-                const q = l < 0.5 ? l * (1 + s) : l + s - l * s;
-                const p = 2 * l - q;
-                r = ColorExtractor.hueToRgb(p, q, h + 1 / 3);
-                g = ColorExtractor.hueToRgb(p, q, h);
-                b = ColorExtractor.hueToRgb(p, q, h - 1 / 3);
+                const q = color.l < 0.5 ? color.l * (1 + color.s) : color.l + color.s - color.l * color.s;
+                const p = 2 * color.l - q;
+                r = ColorExtractor.hueToRgb(p, q, color.h + 1 / 3);
+                g = ColorExtractor.hueToRgb(p, q, color.h);
+                b = ColorExtractor.hueToRgb(p, q, color.h - 1 / 3);
             }
-            return [round(r * 255), round(g * 255), round(b * 255)];
+            return { r: round(r * 255), g: round(g * 255), b: round(b * 255) };
         }
         /**
          * Converts an RGB color value to HSL. Conversion formula
@@ -1251,22 +1174,26 @@
          * @return  {Array}           The HSL representation
          */
         static rgbToHsl(color) {
-            (color.r /= 255), (color.g /= 255), (color.b /= 255);
-            const vmax = max(color.r, color.g, color.b), vmin = min(color.r, color.g, color.b);
+            const newColor = {
+                r: color.r / 255,
+                g: color.g / 255,
+                b: color.b / 255
+            };
+            const vmax = max(newColor.r, newColor.g, newColor.b), vmin = min(newColor.r, newColor.g, newColor.b);
             let h, s, l = (vmax + vmin) / 2;
             if (vmax === vmin) {
-                return [0, 0, l]; // achromatic
+                return { h: 0, s: 0, l: l }; // achromatic
             }
             const d = vmax - vmin;
             s = l > 0.5 ? d / (2 - vmax - vmin) : d / (vmax + vmin);
-            if (vmax === color.r)
-                h = (color.g - color.b) / d + (color.g < color.b ? 6 : 0);
-            if (vmax === color.g)
-                h = (color.b - color.r) / d + 2;
-            if (vmax === color.b)
-                h = (color.r - color.g) / d + 4;
+            if (vmax === newColor.r)
+                h = (newColor.g - newColor.b) / d + (color.g < color.b ? 6 : 0);
+            if (vmax === newColor.g)
+                h = (newColor.b - newColor.r) / d + 2;
+            if (vmax === newColor.b)
+                h = (newColor.r - newColor.g) / d + 4;
             h /= 6;
-            return [h, s, l];
+            return { h: h, s: s, l: l };
         }
     }
 
