@@ -26,6 +26,13 @@ The extractor library returns a JSON with the following format:
 
 And the app using it rewrites the [BubbleUI](https://github.com/akrck02/Bubble-UI) variables to change the UI colors!
 
+<div style="display:flex; flexx-wrap:wrap;">
+    <style>
+        img {
+            width: 20%
+        }
+    </style>
+
 ![Theme1](./docs/resources/Theme1.png)
 ![Theme2](./docs/resources/Theme2.png)
 ![Theme3](./docs/resources/Theme3.png)
@@ -34,3 +41,5 @@ And the app using it rewrites the [BubbleUI](https://github.com/akrck02/Bubble-U
 ![Theme6](./docs/resources/Theme6.png)
 ![Theme7](./docs/resources/Theme7.png)
 ![Theme8](./docs/resources/Theme8.png)
+
+</div>
