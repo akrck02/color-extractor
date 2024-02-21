@@ -26,20 +26,15 @@ The extractor library returns a JSON with the following format:
 
 And the app using it rewrites the [BubbleUI](https://github.com/akrck02/Bubble-UI) variables to change the UI colors!
 
-<div style="display:flex; flexx-wrap:wrap;">
-    <style>
-        img {
-            width: 20%
-        }
-    </style>
+<div style="display:flex; flex-wrap:wrap;">
 
-![Theme1](./docs/resources/Theme1.png)
-![Theme2](./docs/resources/Theme2.png)
-![Theme3](./docs/resources/Theme3.png)
-![Theme4](./docs/resources/Theme4.png)
-![Theme5](./docs/resources/Theme5.png)
-![Theme6](./docs/resources/Theme6.png)
-![Theme7](./docs/resources/Theme7.png)
-![Theme8](./docs/resources/Theme8.png)
+<img alt="Theme 1" src="./docs/resources/Theme1.png" style="width:20%">
+<img alt="Theme 2" src="./docs/resources/Theme2.png" style="width:20%">
+<img alt="Theme 3" src="./docs/resources/Theme3.png" style="width:20%">
+<img alt="Theme 4" src="./docs/resources/Theme4.png" style="width:20%">
+<img alt="Theme 5" src="./docs/resources/Theme5.png" style="width:20%">
+<img alt="Theme 6" src="./docs/resources/Theme6.png" style="width:20%">
+<img alt="Theme 7" src="./docs/resources/Theme7.png" style="width:20%">
+<img alt="Theme 8" src="./docs/resources/Theme8.png" style="width:20%">
 
 </div>
