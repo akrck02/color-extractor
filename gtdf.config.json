@@ -31,16 +31,14 @@
     },
 
     "api" : {
-        "url" : "http://192.168.50.223:3000/",
-        "login" : "users/login",
-        "transactionsListIncome" : "transactions/list/income",
-        "transactionsListOutcome" : "transactions/list/outcome"
+        "url" : ""
     },
 
     "variables" : {
         "animations" : "true",
         "language" : "es",
-        "theme" : "dark"
+        "theme" : "dark",
+        "github_url" : "https://github.com/akrck02/color-extractor"
     }
 
 }

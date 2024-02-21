@@ -1,9 +1,10 @@
 import { Config } from "../../config/Config.js";
 import { HTML } from "../../lib/gtdf/components/Dom.js";
 import { UIComponent } from "../../lib/gtdf/components/UIComponent.js";
+import { EasyFetch } from "../../lib/gtdf/connection/EasyFetch.js";
 import { Route } from "../../lib/gtdf/decorators/Route.js";
 import { Singleton } from "../../lib/gtdf/decorators/Singleton.js";
-import MaterialIcons from "../../lib/gtdf/resources/MaterialIcons.js";
+import MaterialIcons, { createSVG } from "../../lib/gtdf/resources/MaterialIcons.js";
 import { ViewUI } from "../../lib/gtdf/views/ViewUI.js";
 import { Gtdf as BubbleUI } from "../../lib/others/BubbleUI.js";
 import { ColorExtractor, StructuralColorPalette } from "../../lib/others/ColorExtractor.js";
@@ -28,9 +29,12 @@ export default class HomeView extends ViewUI {
 
     }
 
-    public show(params: string[], container: UIComponent) {
+    public async show(params: string[], container: UIComponent) {
             
         this.clean();
+
+        (await this.createTrademark())?.appendTo(this);
+    
         const title = new UIComponent({
             type: HTML.H5,
             classes: [BubbleUI.TEXT_CENTER],
@@ -43,7 +47,7 @@ export default class HomeView extends ViewUI {
         this.createActionButtons().appendTo(this);
         this.createColorPicker().appendTo(this);
 
-        for (let i = 0; i < 5; i++) {
+        for (let i = 0; i < 4; i++) {
             this.createUserPost().appendTo(this);
         }
      
@@ -54,6 +58,47 @@ export default class HomeView extends ViewUI {
 
         this.appendTo(container);
     }
+
+    /**
+     * Create trademark info
+     */
+    private async createTrademark() : Promise<UIComponent> {
+        const tradeMarkContainer = new UIComponent({
+            type : HTML.A,
+            classes : [BubbleUI.BOX_ROW,BubbleUI.BOX_CENTER],
+            attributes : {
+                href : Config.Variables.github_url
+            },
+            styles: {
+                width: "100%"
+            }
+        });
+        
+        let githubIconSVG = ""; 
+        await EasyFetch.get({url:Config.Path.icons + "github.svg",parameters:{}})
+        .status(200, (data) => {githubIconSVG = data;}).text()
+        
+        const github = new UIComponent({
+            text: githubIconSVG,
+            id: "github-icon"
+        });
+
+        github.appendTo(tradeMarkContainer);
+        
+        const trademark = new UIComponent({
+            text: `Akrck02 - ${new Date().getFullYear()}`,
+            styles : {
+                marginLeft: "1rem",
+                fontSize: ".8rem",
+                opacity: ".6"
+            }
+        }) 
+        
+        trademark.appendTo(tradeMarkContainer);
+
+        return tradeMarkContainer;
+    }
+
 
     /**
      * Create the real button bar
