@@ -14,6 +14,7 @@ interface IVariables {
     animations : boolean;
     environment : ENVIRONMENT;
     language : string;
+    github_url : string;
 }
 
 interface IBase {
@@ -59,7 +60,8 @@ export class Configuration implements IObserver {
     Variables : IVariables = {
         animations : true,
         environment : ENVIRONMENT.DEVELOPMENT,
-        language : Language.ENGLISH
+        language : Language.ENGLISH,
+        github_url : ""
     }
 
     Base : IBase = {
@@ -91,11 +93,7 @@ export class Configuration implements IObserver {
         blank : ""
     }
 
-    Api : any = {
-        url : "",
-        login : "",
-        transactions_list_income : "",
-    }
+    Api : any = {}
 
     async update() {
     
@@ -103,7 +101,7 @@ export class Configuration implements IObserver {
 
         this.Variables  = config.variables;
         this.Base       = config.base;
-        this.Path      = config.path;
+        this.Path       = config.path;
         this.Views      = config.views;
         this.Api        = config.api;
 
