@@ -667,7 +667,8 @@
             this.Variables = {
                 animations: true,
                 environment: ENVIRONMENT.DEVELOPMENT,
-                language: Language.ENGLISH
+                language: Language.ENGLISH,
+                github_url: ""
             };
             this.Base = {
                 app_name: "",
@@ -695,11 +696,7 @@
                 error: "",
                 blank: ""
             };
-            this.Api = {
-                url: "",
-                login: "",
-                transactions_list_income: "",
-            };
+            this.Api = {};
         }
         async update() {
             const config = await fetch(this.CONFIG_FILE).then((response) => response.json());
@@ -1012,6 +1009,416 @@
         }
     }
 
+    var HTTPS_METHOD;
+    (function (HTTPS_METHOD) {
+        HTTPS_METHOD["GET"] = "GET";
+        HTTPS_METHOD["POST"] = "POST";
+        HTTPS_METHOD["PUT"] = "PUT";
+        HTTPS_METHOD["DELETE"] = "DELETE";
+        HTTPS_METHOD["UPDATE"] = "UPDATE";
+        HTTPS_METHOD["PATCH"] = "PATCH";
+        HTTPS_METHOD["HEAD"] = "HEAD";
+        HTTPS_METHOD["OPTIONS"] = "OPTIONS";
+        HTTPS_METHOD["CONNECT"] = "CONNECT";
+        HTTPS_METHOD["TRACE"] = "TRACE";
+        HTTPS_METHOD["ALL"] = "ALL";
+    })(HTTPS_METHOD || (HTTPS_METHOD = {}));
+    var MIME_TYPE;
+    (function (MIME_TYPE) {
+        MIME_TYPE["JSON"] = "application/json";
+        MIME_TYPE["XML"] = "application/xml";
+        MIME_TYPE["HTML"] = "text/html";
+        MIME_TYPE["TEXT"] = "text/plain";
+        MIME_TYPE["FORM"] = "multipart/form-data";
+        MIME_TYPE["URL_ENCODED"] = "application/x-www-form-urlencoded";
+        MIME_TYPE["BLOB"] = "application/octet-stream";
+        MIME_TYPE["PDF"] = "application/pdf";
+        MIME_TYPE["ZIP"] = "application/zip";
+        MIME_TYPE["MP3"] = "audio/mpeg";
+        MIME_TYPE["MP4"] = "video/mp4";
+        MIME_TYPE["PNG"] = "image/png";
+        MIME_TYPE["JPEG"] = "image/jpeg";
+        MIME_TYPE["GIF"] = "image/gif";
+        MIME_TYPE["SVG"] = "image/svg+xml";
+        MIME_TYPE["ICO"] = "image/x-icon";
+        MIME_TYPE["CSV"] = "text/csv";
+        MIME_TYPE["CSS"] = "text/css";
+        MIME_TYPE["JAVASCRIPT"] = "text/javascript";
+        MIME_TYPE["TYPESCRIPT"] = "text/typescript";
+        MIME_TYPE["WEBM"] = "video/webm";
+        MIME_TYPE["OGG"] = "video/ogg";
+        MIME_TYPE["OGV"] = "video/ogv";
+        MIME_TYPE["WAV"] = "audio/wav";
+        MIME_TYPE["WEBP"] = "image/webp";
+        MIME_TYPE["WOFF"] = "font/woff";
+        MIME_TYPE["WOFF2"] = "font/woff2";
+        MIME_TYPE["TTF"] = "font/ttf";
+        MIME_TYPE["EOT"] = "application/vnd.ms-fontobject";
+        MIME_TYPE["OTF"] = "font/otf";
+        MIME_TYPE["XLS"] = "application/vnd.ms-excel";
+        MIME_TYPE["XLSX"] = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+        MIME_TYPE["DOC"] = "application/msword";
+        MIME_TYPE["DOCX"] = "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
+        MIME_TYPE["PPT"] = "application/vnd.ms-powerpoint";
+        MIME_TYPE["PPTX"] = "application/vnd.openxmlformats-officedocument.presentationml.presentation";
+        MIME_TYPE["MSG"] = "application/vnd.ms-outlook";
+        MIME_TYPE["RTF"] = "application/rtf";
+        MIME_TYPE["PSD"] = "application/photoshop";
+        MIME_TYPE["AI"] = "application/postscript";
+        MIME_TYPE["EPS"] = "application/postscript";
+        MIME_TYPE["XPS"] = "application/vnd.ms-xpsdocument";
+        MIME_TYPE["SWF"] = "application/x-shockwave-flash";
+        MIME_TYPE["FLV"] = "video/x-flv";
+        MIME_TYPE["MIDI"] = "audio/midi";
+        MIME_TYPE["WMA"] = "audio/x-ms-wma";
+        MIME_TYPE["WAX"] = "audio/x-ms-wax";
+        MIME_TYPE["MKA"] = "audio/x-matroska";
+        MIME_TYPE["MKV"] = "video/x-matroska";
+        MIME_TYPE["AVI"] = "video/x-msvideo";
+        MIME_TYPE["MOV"] = "video/quicktime";
+        MIME_TYPE["WMV"] = "video/x-ms-wmv";
+        MIME_TYPE["M4A"] = "audio/mp4";
+        MIME_TYPE["M4V"] = "video/mp4";
+        MIME_TYPE["F4V"] = "video/mp4";
+        MIME_TYPE["F4A"] = "audio/mp4";
+        MIME_TYPE["F4B"] = "audio/mp4";
+        MIME_TYPE["M4B"] = "audio/mp4";
+        MIME_TYPE["M4R"] = "audio/mp4";
+        MIME_TYPE["MPGA"] = "audio/mpeg";
+        MIME_TYPE["MP2"] = "audio/mpeg";
+        MIME_TYPE["MP2A"] = "audio/mpeg";
+        MIME_TYPE["M2A"] = "audio/mpeg";
+        MIME_TYPE["M3A"] = "audio/mpeg";
+        MIME_TYPE["OGA"] = "audio/ogg";
+    })(MIME_TYPE || (MIME_TYPE = {}));
+    var TEXT_ENCODING;
+    (function (TEXT_ENCODING) {
+        TEXT_ENCODING["UTF8"] = "UTF-8";
+        TEXT_ENCODING["UTF16"] = "UTF-16";
+        TEXT_ENCODING["UTF16BE"] = "UTF-16BE";
+        TEXT_ENCODING["UTF16LE"] = "UTF-16LE";
+        TEXT_ENCODING["ISO88591"] = "ISO-8859-1";
+        TEXT_ENCODING["ISO88592"] = "ISO-8859-2";
+        TEXT_ENCODING["ISO88593"] = "ISO-8859-3";
+        TEXT_ENCODING["ISO88594"] = "ISO-8859-4";
+        TEXT_ENCODING["ISO88595"] = "ISO-8859-5";
+        TEXT_ENCODING["ISO88596"] = "ISO-8859-6";
+        TEXT_ENCODING["ISO88597"] = "ISO-8859-7";
+        TEXT_ENCODING["ISO88598"] = "ISO-8859-8";
+        TEXT_ENCODING["ISO88599"] = "ISO-8859-9";
+        TEXT_ENCODING["ISO885910"] = "ISO-8859-10";
+        TEXT_ENCODING["ISO885913"] = "ISO-8859-13";
+        TEXT_ENCODING["ISO885914"] = "ISO-8859-14";
+        TEXT_ENCODING["ISO885915"] = "ISO-8859-15";
+        TEXT_ENCODING["ISO885916"] = "ISO-8859-16";
+        TEXT_ENCODING["KOI8R"] = "KOI8-R";
+        TEXT_ENCODING["KOI8U"] = "KOI8-U";
+        TEXT_ENCODING["MACINTOSH"] = "macintosh";
+        TEXT_ENCODING["WINDOWS1250"] = "windows-1250";
+        TEXT_ENCODING["WINDOWS1251"] = "windows-1251";
+        TEXT_ENCODING["WINDOWS1252"] = "windows-1252";
+        TEXT_ENCODING["WINDOWS1253"] = "windows-1253";
+        TEXT_ENCODING["WINDOWS1254"] = "windows-1254";
+        TEXT_ENCODING["WINDOWS1255"] = "windows-1255";
+        TEXT_ENCODING["WINDOWS1256"] = "windows-1256";
+        TEXT_ENCODING["WINDOWS1257"] = "windows-1257";
+        TEXT_ENCODING["WINDOWS1258"] = "windows-1258";
+        TEXT_ENCODING["XMACCYRILLIC"] = "x-mac-cyrillic";
+        TEXT_ENCODING["GB18030"] = "GB18030";
+        TEXT_ENCODING["BIG5"] = "Big5";
+        TEXT_ENCODING["SHIFTJIS"] = "Shift_JIS";
+        TEXT_ENCODING["EUCJP"] = "EUC-JP";
+        TEXT_ENCODING["ISO2022JP"] = "ISO-2022-JP";
+        TEXT_ENCODING["EUCKR"] = "EUC-KR";
+        TEXT_ENCODING["ISO2022KR"] = "ISO-2022-KR";
+        TEXT_ENCODING["IBM866"] = "IBM866";
+        TEXT_ENCODING["IBM775"] = "IBM775";
+        TEXT_ENCODING["ISO885911"] = "ISO-8859-11";
+        TEXT_ENCODING["WINDOWS874"] = "windows-874";
+        TEXT_ENCODING["TIS620"] = "TIS-620";
+    })(TEXT_ENCODING || (TEXT_ENCODING = {}));
+
+    /**
+     * A class that represents a response from a fetch request.
+     * @description Encapsulates the data and methods for easy fetching
+     * @author Akrck02
+     */
+    class Response {
+        constructor(response) {
+            this.response = response;
+            this.middleware = [];
+            this.errorFunction = (err) => console.error("Error in response : ", err);
+            this.statusFunctions = new Map();
+            this.statusFunctions.set(200, (res) => console.log("Success", res));
+        }
+        /**
+         * Executes the callback functions corresponding to the status code getting the response as a json object.
+         * in case of an error, the error function will be executed.
+         *
+         * @example
+         * await EasyFetch.get({
+         *   url: "https://mydomain/json/1",
+         *   parameters: {
+         *        name: "John",
+         *   },
+         *   headers: {
+         *      "Content-type": "application/json",
+         *   }
+         * })
+         * .status(200,(response) => {
+         *    console.log(response);
+         * })
+         * .status(404,(response) => {
+         *   console.log("NOT FOUND: ",response);
+         * })
+         * .error((error) => {
+         *   console.error(error);
+         * })
+         * .json()
+         */
+        async json() {
+            await this.response
+                .then(async (res) => {
+                if (this.statusFunctions.has(res.status)) {
+                    let json = await res.json();
+                    await this.statusFunctions.get(res.status)(json);
+                }
+            })
+                .catch((err) => this.errorFunction(err));
+        }
+        /**
+         * Executes the callback function corresponding to the status code getting the response as a text.
+         * in case of an error, the error function will be executed.
+         * @example
+         * await EasyFetch.get({
+         *   url: "https://mydomain/text/1",
+         *   parameters: {
+         *        name: "John",
+         *   },
+         *   headers: {
+         *      "Content-type": "text/plain",
+         *   }
+         * })
+         * .status(200,(response) => {
+         *    console.log(response);
+         * })
+         * .status(404,(response) => {
+         *   console.log("NOT FOUND: ",response);
+         * })
+         * .error((error) => {
+         *   console.error(error);
+         * })
+         * .text()
+         */
+        async text() {
+            await this.response
+                .then(async (res) => {
+                if (this.statusFunctions.has(res.status)) {
+                    let text = await res.text();
+                    await this.statusFunctions.get(res.status)(text);
+                }
+            })
+                .catch((err) => this.errorFunction(err));
+        }
+        /**
+         * Executes the callback function corresponding to the status code getting the response as a blob.
+         * in case of an error, the error function will be executed.
+         * @example
+         * await EasyFetch.get({
+         *  url: "https://mydomain/blob/1",
+         * parameters: {
+         *     name: "John",
+         * },
+         * headers: {
+         *    "Content-type": "application/octet-stream",
+         * }
+         * })
+         * .status(200,(response) => {
+         *   console.log(response);
+         * })
+         * .status(404,(response) => {
+         *  console.log("NOT FOUND: ",response);
+         * })
+         * .error((error) => {
+         *  console.error(error);
+         * })
+         * .blob()
+         */
+        async blob() {
+            await this.response
+                .then(async (res) => {
+                if (this.statusFunctions.has(res.status)) {
+                    let blob = await res.blob();
+                    await this.statusFunctions.get(res.status)(blob);
+                }
+            })
+                .catch((err) => this.errorFunction(err));
+        }
+        /**
+         * Sets the callback function to be executed corresponding to the status code.
+         * @param code the status code or list of status codes
+         * @param success the callback function
+         * @returns the response itself
+         */
+        status(code, func) {
+            let numbers = [];
+            if (typeof code === "number") {
+                numbers.push(code);
+            }
+            else {
+                numbers = code;
+            }
+            for (let i = 0; i < numbers.length; i++) {
+                this.statusFunctions.set(numbers[i], func);
+            }
+            return this;
+        }
+        /**
+         * Sets the callback function to be executed when the response is unsuccessful.
+         * @param error the callback function
+         * @returns the response itself
+         */
+        error(error) {
+            this.errorFunction = error;
+            return this;
+        }
+    }
+    class EasyFetch {
+        static get(properties) {
+            return EasyFetch.exec({
+                method: HTTPS_METHOD.GET,
+                parameters: properties.parameters,
+                url: properties.url,
+                headers: properties.headers,
+                charset: properties.charset,
+                contentType: properties.contentType
+            });
+        }
+        static post(properties) {
+            return EasyFetch.exec({
+                method: HTTPS_METHOD.POST,
+                parameters: properties.parameters,
+                url: properties.url,
+                headers: properties.headers,
+                charset: properties.charset,
+                contentType: properties.contentType
+            });
+        }
+        static put(properties) {
+            return EasyFetch.exec({
+                method: HTTPS_METHOD.PUT,
+                parameters: properties.parameters,
+                url: properties.url,
+                headers: properties.headers,
+                charset: properties.charset,
+                contentType: properties.contentType
+            });
+        }
+        static delete(properties) {
+            return EasyFetch.exec({
+                method: HTTPS_METHOD.DELETE,
+                parameters: properties.parameters,
+                url: properties.url,
+                headers: properties.headers,
+                charset: properties.charset,
+                contentType: properties.contentType
+            });
+        }
+        static patch(properties) {
+            return EasyFetch.exec({
+                method: HTTPS_METHOD.PATCH,
+                parameters: properties.parameters,
+                url: properties.url,
+                headers: properties.headers,
+                charset: properties.charset,
+                contentType: properties.contentType
+            });
+        }
+        static head(properties) {
+            return EasyFetch.exec({
+                method: HTTPS_METHOD.HEAD,
+                parameters: properties.parameters,
+                url: properties.url,
+                headers: properties.headers,
+                charset: properties.charset,
+                contentType: properties.contentType
+            });
+        }
+        static options(properties) {
+            return EasyFetch.exec({
+                method: HTTPS_METHOD.OPTIONS,
+                parameters: properties.parameters,
+                url: properties.url,
+                headers: properties.headers,
+                charset: properties.charset,
+                contentType: properties.contentType
+            });
+        }
+        static connect(properties) {
+            return EasyFetch.exec({
+                method: HTTPS_METHOD.CONNECT,
+                parameters: properties.parameters,
+                url: properties.url,
+                headers: properties.headers,
+                charset: properties.charset,
+                contentType: properties.contentType
+            });
+        }
+        static trace(properties) {
+            return EasyFetch.exec({
+                method: HTTPS_METHOD.TRACE,
+                parameters: properties.parameters,
+                url: properties.url,
+                headers: properties.headers,
+                charset: properties.charset,
+                contentType: properties.contentType
+            });
+        }
+        static update(properties) {
+            return EasyFetch.exec({
+                method: HTTPS_METHOD.UPDATE,
+                parameters: properties.parameters,
+                url: properties.url,
+                headers: properties.headers,
+                charset: properties.charset,
+                contentType: properties.contentType
+            });
+        }
+        /**
+         * Adds a middleware function to be executed before the request is sent.
+         * @param func the middleware function
+         */
+        static addMiddleware(func) {
+            EasyFetch.middleware.push(func);
+        }
+        /**
+         * Removes a middleware function.
+         * @param func the middleware function
+         * @returns true if the function was removed, false otherwise
+         */
+        static exec(properties) {
+            let options = {
+                method: properties.method,
+                headers: {
+                    "Content-type": `${properties.contentType || "application/json"};charset=${properties.charset || "UTF-8"}`
+                },
+            };
+            properties.headers && Object.assign(options.headers, properties.headers);
+            if (properties.method !== HTTPS_METHOD.GET) {
+                if (properties.parameters instanceof FormData) {
+                    options["body"] = properties.parameters;
+                    options.headers["Content-type"] = `multipart/form-data;charset=${properties.charset || "UTF-8"}`;
+                }
+                else {
+                    options["body"] = JSON.stringify(properties.parameters);
+                }
+            }
+            const promise = fetch(properties.url, options);
+            return new Response(promise);
+        }
+    }
+    EasyFetch.middleware = [];
+
     var Gtdf;
     (function (Gtdf) {
         Gtdf["BOX_COLUMN"] = "box-column";
@@ -1217,8 +1624,9 @@
                 classes: [Gtdf.BOX_COLUMN, Gtdf.BOX_CENTER],
             });
         }
-        show(params, container) {
+        async show(params, container) {
             this.clean();
+            (await this.createTrademark())?.appendTo(this);
             const title = new UIComponent({
                 type: HTML.H5,
                 classes: [Gtdf.TEXT_CENTER],
@@ -1230,7 +1638,7 @@
             title.appendTo(this);
             this.createActionButtons().appendTo(this);
             this.createColorPicker().appendTo(this);
-            for (let i = 0; i < 5; i++) {
+            for (let i = 0; i < 4; i++) {
                 this.createUserPost().appendTo(this);
             }
             this.actionButton = this.createActionButton();
@@ -1238,6 +1646,39 @@
             this.createNavBar().appendTo(this);
             this.changeTheme("#0a0a0a", this.lightMode);
             this.appendTo(container);
+        }
+        /**
+         * Create trademark info
+         */
+        async createTrademark() {
+            const tradeMarkContainer = new UIComponent({
+                type: HTML.A,
+                classes: [Gtdf.BOX_ROW, Gtdf.BOX_CENTER],
+                attributes: {
+                    href: Config.Variables.github_url
+                },
+                styles: {
+                    width: "100%"
+                }
+            });
+            let githubIconSVG = "";
+            await EasyFetch.get({ url: Config.Path.icons + "github.svg", parameters: {} })
+                .status(200, (data) => { githubIconSVG = data; }).text();
+            const github = new UIComponent({
+                text: githubIconSVG,
+                id: "github-icon"
+            });
+            github.appendTo(tradeMarkContainer);
+            const trademark = new UIComponent({
+                text: `Akrck02 - ${new Date().getFullYear()}`,
+                styles: {
+                    marginLeft: "1rem",
+                    fontSize: ".8rem",
+                    opacity: ".6"
+                }
+            });
+            trademark.appendTo(tradeMarkContainer);
+            return tradeMarkContainer;
         }
         /**
          * Create the real button bar
