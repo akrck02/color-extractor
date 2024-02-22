@@ -5,26 +5,25 @@ const { abs, min, max, round } = Math;
  * It is used to define the colors of the different surfaces and texts
  */
 export interface StructuralColorPalette {
-    surface1: string;
-    onSurface1: string;
+    "surface-1": string;
+    "on-surface-1": string;
 
-    surface2: string;
-    onSurface2: string;
-    
-    surface3: string;
-    onSurface3: string;
+    "surface-2": string;
+    "on-surface-2": string;
 
-    surface4: string;
-    onSurface4: string;
+    "surface-3": string;
+    "on-surface-3": string;
+    "surface-4": string;
+    "on-surface-4": string;
 
-    surface5: string;
-    onSurface5: string;
+    "surface-5": string;
+    "on-surface-5": string;
 
-    surface6: string;
-    onSurface6: string;
-    
-    background: string;
-    onBackground: string;
+    "surface-6": string;
+    "on-surface-6": string;
+
+    "background": string;
+    "on-background": string;
 }
 
 /**
