@@ -7,20 +7,20 @@ The extractor library returns a JSON with the following format:
 
 ```JSON
 {
-    "surface1": "#262626",
-    "onSurface1": "#ffffff",
-    "surface2": "#333333",
-    "onSurface2": "#ffffff",
-    "surface3": "#404040",
-    "onSurface3": "#ffffff",
-    "surface4": "#4d4d4d",
-    "onSurface4": "#ffffff",
-    "surface5": "#595959",
-    "onSurface5": "#ffffff",
-    "surface6": "#666666",
-    "onSurface6": "#ffffff",
+    "surface-1": "#262626",
+    "on-surface-1": "#ffffff",
+    "surface-2": "#333333",
+    "on-surface-2": "#ffffff",
+    "surface-3": "#404040",
+    "on-surface-3": "#ffffff",
+    "surface-4": "#4d4d4d",
+    "on-surface-4": "#ffffff",
+    "surface-5": "#595959",
+    "on-surface-5": "#ffffff",
+    "surface-6": "#666666",
+    "on-surface-6": "#ffffff",
     "background": "#1a1a1a",
-    "onBackground": "#ffffff"
+    "on-background": "#ffffff"
 }
 ```
 

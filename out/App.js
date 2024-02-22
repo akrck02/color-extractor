@@ -1475,20 +1475,20 @@
             const surface6 = extractedColors[8];
             const onSurface6 = ColorExtractor.isLight(surface3) ? textDark : textLight;
             return {
-                surface1: ColorExtractor.rgbToHex(surface1),
-                onSurface1: ColorExtractor.rgbToHex(onSurface1),
-                surface2: ColorExtractor.rgbToHex(surface2),
-                onSurface2: ColorExtractor.rgbToHex(onSurface2),
-                surface3: ColorExtractor.rgbToHex(surface3),
-                onSurface3: ColorExtractor.rgbToHex(onSurface3),
-                surface4: ColorExtractor.rgbToHex(surface4),
-                onSurface4: ColorExtractor.rgbToHex(onSurface4),
-                surface5: ColorExtractor.rgbToHex(surface5),
-                onSurface5: ColorExtractor.rgbToHex(onSurface5),
-                surface6: ColorExtractor.rgbToHex(surface6),
-                onSurface6: ColorExtractor.rgbToHex(onSurface6),
-                background: ColorExtractor.rgbToHex(background),
-                onBackground: ColorExtractor.rgbToHex(onBackground),
+                "surface-1": ColorExtractor.rgbToHex(surface1),
+                "on-surface-1": ColorExtractor.rgbToHex(onSurface1),
+                "surface-2": ColorExtractor.rgbToHex(surface2),
+                "on-surface-2": ColorExtractor.rgbToHex(onSurface2),
+                "surface-3": ColorExtractor.rgbToHex(surface3),
+                "on-surface-3": ColorExtractor.rgbToHex(onSurface3),
+                "surface-4": ColorExtractor.rgbToHex(surface4),
+                "on-surface-4": ColorExtractor.rgbToHex(onSurface4),
+                "surface-5": ColorExtractor.rgbToHex(surface5),
+                "on-surface-5": ColorExtractor.rgbToHex(onSurface5),
+                "surface-6": ColorExtractor.rgbToHex(surface6),
+                "on-surface-6": ColorExtractor.rgbToHex(onSurface6),
+                "background": ColorExtractor.rgbToHex(background),
+                "on-background": ColorExtractor.rgbToHex(onBackground),
             };
         }
         /*
@@ -1776,15 +1776,15 @@
             try {
                 this.colorPalette = ColorExtractor.extractColors(value, lightMode);
                 document.body.style.setProperty("--background-color", this.colorPalette.background);
-                document.body.style.setProperty("--on-background-color", this.colorPalette.onBackground);
-                document.body.style.setProperty("--primary-container-color", this.colorPalette.surface1);
-                document.body.style.setProperty("--on-primary-container-color", this.colorPalette.onSurface1);
-                document.body.style.setProperty("--secondary-container-color", this.colorPalette.surface2);
-                document.body.style.setProperty("--on-secondary-container-color", this.colorPalette.onSurface2);
-                document.body.style.setProperty("--tertiary-container-color", this.colorPalette.surface3);
-                document.body.style.setProperty("--on-tertiary-container-color", this.colorPalette.onSurface3);
-                document.body.style.setProperty("--item-background-color", this.colorPalette.surface2);
-                document.body.style.setProperty("--on-item-background-color", this.colorPalette.onSurface2);
+                document.body.style.setProperty("--on-background-color", this.colorPalette["on-background"]);
+                document.body.style.setProperty("--primary-container-color", this.colorPalette["surface-1"]);
+                document.body.style.setProperty("--on-primary-container-color", this.colorPalette["on-surface-1"]);
+                document.body.style.setProperty("--secondary-container-color", this.colorPalette["surface-2"]);
+                document.body.style.setProperty("--on-secondary-container-color", this.colorPalette["on-surface-2"]);
+                document.body.style.setProperty("--tertiary-container-color", this.colorPalette["surface-3"]);
+                document.body.style.setProperty("--on-tertiary-container-color", this.colorPalette["on-surface-3"]);
+                document.body.style.setProperty("--item-background-color", this.colorPalette["surface-2"]);
+                document.body.style.setProperty("--on-item-background-color", this.colorPalette["on-surface-2"]);
             }
             catch (e) {
                 console.error(e);
