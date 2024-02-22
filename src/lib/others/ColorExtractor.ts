@@ -100,26 +100,26 @@ export class ColorExtractor {
         const onSurface6    = ColorExtractor.isLight(surface3) ? textDark : textLight;
 
         return {
-            surface1:  ColorExtractor.rgbToHex(surface1),
-            onSurface1:  ColorExtractor.rgbToHex(onSurface1),
+            "surface-1":  ColorExtractor.rgbToHex(surface1),
+            "on-surface-1":  ColorExtractor.rgbToHex(onSurface1),
 
-            surface2:  ColorExtractor.rgbToHex(surface2),
-            onSurface2:  ColorExtractor.rgbToHex(onSurface2),
+            "surface-2":  ColorExtractor.rgbToHex(surface2),
+            "on-surface-2":  ColorExtractor.rgbToHex(onSurface2),
 
-            surface3:  ColorExtractor.rgbToHex(surface3),
-            onSurface3:  ColorExtractor.rgbToHex(onSurface3),
+            "surface-3":  ColorExtractor.rgbToHex(surface3),
+            "on-surface-3":  ColorExtractor.rgbToHex(onSurface3),
 
-            surface4: ColorExtractor.rgbToHex(surface4),
-            onSurface4: ColorExtractor.rgbToHex(onSurface4),
+            "surface-4": ColorExtractor.rgbToHex(surface4),
+            "on-surface-4": ColorExtractor.rgbToHex(onSurface4),
 
-            surface5: ColorExtractor.rgbToHex(surface5),
-            onSurface5: ColorExtractor.rgbToHex(onSurface5),
+            "surface-5": ColorExtractor.rgbToHex(surface5),
+            "on-surface-5": ColorExtractor.rgbToHex(onSurface5),
 
-            surface6: ColorExtractor.rgbToHex(surface6),
-            onSurface6: ColorExtractor.rgbToHex(onSurface6),
+            "surface-6": ColorExtractor.rgbToHex(surface6),
+            "on-surface-6": ColorExtractor.rgbToHex(onSurface6),
 
-            background:  ColorExtractor.rgbToHex(background),
-            onBackground:  ColorExtractor.rgbToHex(onBackground),
+            "background":  ColorExtractor.rgbToHex(background),
+            "on-background":  ColorExtractor.rgbToHex(onBackground),
         };
     }
 
