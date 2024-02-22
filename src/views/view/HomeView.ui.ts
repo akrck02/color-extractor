@@ -217,19 +217,19 @@ export default class HomeView extends ViewUI {
             this.colorPalette = ColorExtractor.extractColors(value, lightMode);
 
             document.body.style.setProperty("--background-color", this.colorPalette.background);
-            document.body.style.setProperty("--on-background-color", this.colorPalette.onBackground);
+            document.body.style.setProperty("--on-background-color", this.colorPalette["on-background"]);
 
-            document.body.style.setProperty("--primary-container-color", this.colorPalette.surface1);
-            document.body.style.setProperty("--on-primary-container-color", this.colorPalette.onSurface1);
+            document.body.style.setProperty("--primary-container-color", this.colorPalette["surface-1"]);
+            document.body.style.setProperty("--on-primary-container-color", this.colorPalette["on-surface-1"]);
         
-            document.body.style.setProperty("--secondary-container-color", this.colorPalette.surface2);
-            document.body.style.setProperty("--on-secondary-container-color", this.colorPalette.onSurface2);
+            document.body.style.setProperty("--secondary-container-color", this.colorPalette["surface-2"]);
+            document.body.style.setProperty("--on-secondary-container-color", this.colorPalette["on-surface-2"]);
         
-            document.body.style.setProperty("--tertiary-container-color", this.colorPalette.surface3);
-            document.body.style.setProperty("--on-tertiary-container-color", this.colorPalette.onSurface3);
+            document.body.style.setProperty("--tertiary-container-color", this.colorPalette["surface-3"]);
+            document.body.style.setProperty("--on-tertiary-container-color", this.colorPalette["on-surface-3"]);
         
-            document.body.style.setProperty("--item-background-color", this.colorPalette.surface2);
-            document.body.style.setProperty("--on-item-background-color", this.colorPalette.onSurface2);          
+            document.body.style.setProperty("--item-background-color", this.colorPalette["surface-2"]);
+            document.body.style.setProperty("--on-item-background-color", this.colorPalette["on-surface-2"]);          
         }
         catch(e){
             console.error(e);
